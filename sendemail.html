@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Sender</title>
+</head>
+<body>
+    <h1>Email Sender Form</h1>
+    <form id="emailForm">
+        <label for="emailTitle">Email Title:</label>
+        <input type="text" id="emailTitle" name="emailTitle" required><br><br>
+        
+        <label for="emailMessage">Email Message:</label><br>
+        <textarea id="emailMessage" name="emailMessage" rows="4" cols="50" required></textarea><br><br>
+        
+        <button type="submit">Send Email</button>
+    </form>
+
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const emailTitle = document.getElementById('emailTitle').value;
+            const emailMessage = document.getElementById('emailMessage').value;
+
+            const requestData = {
+                title: emailTitle,
+                message: emailMessage
+            };
+
+            fetch('https://your-api-gateway-url/endpoint', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while sending the email.');
+            });
+        });
+    </script>
+</body>
+</html>
