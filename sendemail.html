@@ -27,11 +27,12 @@
                 message: emailMessage
             };
 
-            fetch('https://your-api-gateway-url/endpoint', {
+            fetch('https://rfs0hjwrp1.execute-api.us-east-1.amazonaws.com/sendemail', {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-Api-Key':'placeholder'
                 },
                 body: JSON.stringify(requestData)
             })
