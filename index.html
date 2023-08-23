@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup Form</title>
+    <script>
+        function toggleInput() {
+            const selection = document.querySelector('input[name="contact"]:checked').value;
+            const emailInput = document.getElementById('emailInput');
+            const phoneInput = document.getElementById('phoneInput');
+
+            if (selection === 'email') {
+                emailInput.style.display = 'block';
+                phoneInput.style.display = 'none';
+            } else if (selection === 'text') {
+                emailInput.style.display = 'none';
+                phoneInput.style.display = 'block';
+            }
+        }
+
+        function sendData() {
+            const selection = document.querySelector('input[name="contact"]:checked').value;
+            const inputData = selection === 'email' ? document.getElementById('email').value : document.getElementById('phone').value;
+            const requestData = {
+                method: 'POST',
+                body: JSON.stringify({ contact: inputData }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Api-Key':'placeholder'
+
+                }
+            };
+
+            console.log(requestData)
+
+            fetch('https://rfs0hjwrp1.execute-api.us-east-1.amazonaws.com/mrwc-signup', requestData)
+                .then(response => response.json())
+                .then(data => {
+                    alert('Data sent successfully!');
+                    // You can perform other actions or show a success message here
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error sending data');
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>Signup Form</h1>
+    <form onsubmit="sendData(); return false;">
+        <input type="radio" name="contact" value="email" onclick="toggleInput();" checked> Email
+        <input type="radio" name="contact" value="text" onclick="toggleInput();"> Text
+        <br>
+        <div id="emailInput">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+        </div>
+        <div id="phoneInput" style="display: none;">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone">
+        </div>
+        <br>
+        <button type="submit">Sign Up</button>
+    </form>
+</body>
+</html>
