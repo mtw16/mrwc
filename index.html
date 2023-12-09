@@ -186,6 +186,12 @@
                     <div class="form-items">
                         <h3>Sign-up for CSO alerts</h3>
                         <p>Fill in the data below to sign up to receive an email notification when an CSO event occurs.</p>
+                        <div class="alert alert-success" role="alert" id="alert-success" style="display:none">
+                            You have successfully subscribed for email alerts.
+                        </div>
+                        <div class="alert alert-danger" id="alert-failure" role="alert" style="display:none">
+                            Subscription failure. Please contact us {email}.
+                        </div>
                         <form id="signupform" class="requires-validation" novalidate>
 
                             <div class="col-md-12">
@@ -222,13 +228,13 @@
                 },
                 body: JSON.stringify(requestData)
             })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-            })
+            .then(
+                document.getElementById("alert-success").style.display = 'block'
+            )
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred while sending the email.');
+                console.log(error.message);
+                document.getElementById("alert-failure").style.display = 'block'
             });
         });
     </script>
